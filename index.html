@@ -114,71 +114,41 @@
         </div>
     </div>
     <script>
-        // Стабильная HTTPS база данных без блокировок
+           <script>
+        // Стабильная база данных на серверах Архива Интернета без блокировок
         const MUSIC_DATABASE = [
-            { id: 'db_1', title: 'Action Cinematic Beat', artist: 'Infraction', genre: 'pop', icon: '🎤', url: 'https://pixabay.com' },
-            { id: 'db_2', title: 'Summer Dance Vibe', artist: 'Alex-Productions', genre: 'pop', icon: '💃', url: 'https://pixabay.com' },
-            { id: 'db_3', title: 'Cyber Synthwave Energy', artist: 'Neon Drive', genre: 'pop', icon: '🌟', url: 'https://pixabay.com' },
-            { id: 'db_4', title: 'Pop Funk Party', artist: 'Groove Station', genre: 'pop', icon: '🕶️', url: 'https://pixabay.com' },
+            { id: 'db_1', title: 'Summer Hip-Hop Beat', artist: 'Lofi Chill', genre: 'pop', icon: '🎤', url: 'https://archive.org' },
+            { id: 'db_2', title: 'Dance Club Vibe', artist: 'Electro Vibe', genre: 'pop', icon: '💃', url: 'https://archive.org' },
+            { id: 'db_3', title: 'Synthwave Night Ride', artist: 'Retro Wave', genre: 'pop', icon: '🌟', url: 'https://archive.org' },
+            { id: 'db_4', title: 'Cyber City Tokyo', artist: 'Neon Future', genre: 'pop', icon: '🕶️', url: 'https://archive.org' },
             
-            { id: 'db_5', title: 'Hard Rock Grunge', artist: 'Metal Core', genre: 'rock', icon: '🎸', url: 'https://pixabay.com' },
-            { id: 'db_6', title: 'Stoner Rock Riff', artist: 'Garage Crew', genre: 'rock', icon: '🥁', url: 'https://pixabay.com' },
-            { id: 'db_7', title: 'Modern Alt Rock', artist: 'Overdrive', genre: 'rock', icon: '⚡', url: 'https://pixabay.com' },
-            { id: 'db_8', title: 'Heavy Metal Anthem', artist: 'Iron Edge', genre: 'rock', icon: '💀', url: 'https://pixabay.com' },
+            { id: 'db_5', title: 'Classic Rock Riff', artist: 'Heavy Guitar', genre: 'rock', icon: '🎸', url: 'https://archive.org' },
+            { id: 'db_6', title: 'Hard Overdrive Groove', artist: 'Garage Band', genre: 'rock', icon: '🥁', url: 'https://archive.org' },
+            { id: 'db_7', title: 'Alternative Grunge', artist: 'Thunder Edge', genre: 'rock', icon: '⚡', url: 'https://archive.org' },
+            { id: 'db_8', title: 'Metal Core Anthem', artist: 'Iron Smasher', genre: 'rock', icon: '💀', url: 'https://archive.org' },
             
-            { id: 'db_9', title: 'Phonk Drift Core', artist: 'Tokyo Ghost', genre: 'electronic', icon: '🚗', url: 'https://pixabay.com' },
-            { id: 'db_10', title: 'Deep Cyber Techno', artist: 'Berlin DJ', genre: 'electronic', icon: '🕹️', url: 'https://pixabay.com' },
-            { id: 'db_11', title: 'Acid Rave Dance', artist: 'Club Head', genre: 'electronic', icon: '👽', url: 'https://pixabay.com' },
-            { id: 'db_12', title: 'Deep House Sunset', artist: 'Malibu Vibe', genre: 'electronic', icon: '🌊', url: 'https://pixabay.com' },
+            { id: 'db_9', title: 'Phonk Bass Drive', artist: 'Tokyo Drift', genre: 'electronic', icon: '🚗', url: 'https://archive.org' },
+            { id: 'db_10', title: 'Cyberpunk Techno', artist: 'Berlin DJ', genre: 'electronic', icon: '🕹️', url: 'https://archive.org' },
+            { id: 'db_11', title: 'Acid Hard Rave', artist: 'Rave Core', genre: 'electronic', icon: '👽', url: 'https://archive.org' },
+            { id: 'db_12', title: 'Deep House Deep', artist: 'Sunset Beach', genre: 'electronic', icon: '🌊', url: 'https://archive.org' },
             
-            { id: 'db_13', title: 'Lofi Coffee Shop', artist: 'Chillhop Beats', genre: 'chill', icon: '☕', url: 'https://pixabay.com' },
-            { id: 'db_14', title: 'Cozy Rain Lofi', artist: 'Sleepy Head', genre: 'chill', icon: '🌧️', url: 'https://pixabay.com' },
-            { id: 'db_15', title: 'Space Ambient Dream', artist: 'Nebula', genre: 'chill', icon: '🌌', url: 'https://pixabay.com' },
-            { id: 'db_16', title: 'Midnight Jazz Vibe', artist: 'Sax Lounge', genre: 'chill', icon: '🎷', url: 'https://pixabay.com' }
+            { id: 'db_13', title: 'Lofi Coffee Study', artist: 'Chillhop Station', genre: 'chill', icon: '☕', url: 'https://archive.org' },
+            { id: 'db_14', title: 'Cozy Rain Sleep', artist: 'Bedroom Beat', genre: 'chill', icon: '🌧️', url: 'https://archive.org' },
+            { id: 'db_15', title: 'Space Ambient Dream', artist: 'Nebula Flow', genre: 'chill', icon: '🌌', url: 'https://archive.org' },
+            { id: 'db_16', title: 'Midnight Jazz Cafe', artist: 'Sax Lounge', genre: 'chill', icon: '🎷', url: 'https://archive.org' }
         ];
-
-        let isWaveActive = false;
-        let waveQueue = [];
-
         function initApp() {
-            // Сбрасываем старую http-память, если она ломает плеер
-            let oldData = localStorage.getItem('stik_liked_data');
-            if (oldData && oldData.includes('soundhelix')) {
-                localStorage.removeItem('stik_liked_data');
-                localStorage.removeItem('stik_liked');
-            }
-
+            localStorage.clear(); sessionStorage.clear(); // Сброс старого кэша
             MUSIC_DATABASE.forEach(track => { renderCard(track, `genre-${track.genre}`); });
-            updateFavoritesUI(); 
-            updateRecommendationsUI();
-            checkSharedTrack(); // Проверяем, не перешли ли по ссылке на конкретный трек
-
+            updateFavoritesUI(); updateRecommendationsUI(); checkSharedTrack();
             document.getElementById('audio-player').addEventListener('ended', () => { if (isWaveActive) playNextWaveTrack(); });
-            
-            // Фича защиты от зависаний: если сеть лагает, буферизируем заново через 3 секунды
-            document.getElementById('audio-player').addEventListener('stalled', () => {
-                const player = document.getElementById('audio-player');
-                if (!player.paused && player.readyState < 3) {
-                    const currentPos = player.currentTime;
-                    setTimeout(() => { player.load(); player.currentTime = currentPos; player.play(); }, 3000);
-                }
-            });
         }
 
         function renderCard(track, targetId) {
-            const container = document.getElementById(targetId);
-            if (!container) return;
-
-            const card = document.createElement('div');
-            card.className = 'track-card';
-            card.setAttribute('data-id', track.id);
-            card.onclick = (e) => {
-                if (e.target.classList.contains('control-btn')) return;
-                playTrack(`${track.artist} - ${track.title}`, track.url);
-            };
-
+            const container = document.getElementById(targetId); if (!container) return;
+            const card = document.createElement('div'); card.className = 'track-card'; card.setAttribute('data-id', track.id);
+            card.onclick = (e) => { if (e.target.classList.contains('control-btn')) return; playTrack(`${track.artist} - ${track.title}`, track.url); };
             const isLiked = getLikedIds().includes(track.id);
-
             card.innerHTML = `
                 <div class="card-controls">
                     <button class="control-btn share-btn" onclick="shareTrack(event, '${track.id}')">🔗</button>
@@ -190,209 +160,93 @@
             `;
             container.appendChild(card);
         }
-        function getLikedIds() {
-            return JSON.parse(localStorage.getItem('stik_liked')) || [];
-        }
+
+        function getLikedIds() { return JSON.parse(localStorage.getItem('stik_liked')) || []; }
 
         function toggleLike(event, trackId) {
-            event.stopPropagation();
-            let likedIds = getLikedIds();
-
-            if (likedIds.includes(trackId)) {
-                likedIds = likedIds.filter(id => id !== trackId);
-            } else {
-                likedIds.push(trackId);
-            }
-
+            event.stopPropagation(); let likedIds = getLikedIds();
+            if (likedIds.includes(trackId)) { likedIds = likedIds.filter(id => id !== trackId); } 
+            else { likedIds.push(trackId); }
             localStorage.setItem('stik_liked', JSON.stringify(likedIds));
-            
-            document.querySelectorAll(`.track-card[data-id="${trackId}"] .like-btn`).forEach(btn => {
-                btn.classList.toggle('liked');
-            });
-
-            updateFavoritesUI();
-            updateRecommendationsUI();
-            if (isWaveActive) generateWaveQueue();
+            document.querySelectorAll(`.track-card[data-id="${trackId}"] .like-btn`).forEach(btn => { btn.classList.toggle('liked'); });
+            updateFavoritesUI(); updateRecommendationsUI(); if (isWaveActive) generateWaveQueue();
         }
 
         function updateFavoritesUI() {
-            const likedIds = getLikedIds();
-            const favSection = document.getElementById('favorites-section');
-            const favGrid = document.getElementById('playlist-favorites');
-            favGrid.innerHTML = '';
-
-            if (likedIds.length === 0) {
-                favSection.style.display = 'none';
-                return;
-            }
-
+            const likedIds = getLikedIds(); const favSection = document.getElementById('favorites-section'); const favGrid = document.getElementById('playlist-favorites'); favGrid.innerHTML = '';
+            if (likedIds.length === 0) { favSection.style.display = 'none'; return; }
             favSection.style.display = 'block';
             likedIds.forEach(id => {
                 let track = MUSIC_DATABASE.find(t => t.id === id);
-                if (!track) {
-                    const searchCache = JSON.parse(sessionStorage.getItem('search_cache')) || [];
-                    track = searchCache.find(t => t.id === id);
-                }
+                if (!track) { const searchCache = JSON.parse(sessionStorage.getItem('search_cache')) || []; track = searchCache.find(t => t.id === id); }
                 if (track) renderCard(track, 'playlist-favorites');
             });
         }
-
         function updateRecommendationsUI() {
-            const likedIds = getLikedIds();
-            const recSection = document.getElementById('recommendations-section');
-            const recGrid = document.getElementById('playlist-recommendations');
-            recGrid.innerHTML = '';
-
-            if (likedIds.length === 0) {
-                recSection.style.display = 'none';
-                return;
-            }
-
-            let genreCounts = {};
-            likedIds.forEach(id => {
-                const track = MUSIC_DATABASE.find(t => t.id === id);
-                if (track) { genreCounts[track.genre] = (genreCounts[track.genre] || 0) + 1; }
-            });
-
-            let favoriteGenre = null; let maxCount = 0;
-            for (const genre in genreCounts) {
-                if (genreCounts[genre] > maxCount) { maxCount = genreCounts[genre]; favoriteGenre = genre; }
-            }
-
+            const likedIds = getLikedIds(); const recSection = document.getElementById('recommendations-section'); const recGrid = document.getElementById('playlist-recommendations'); recGrid.innerHTML = '';
+            if (likedIds.length === 0) { recSection.style.display = 'none'; return; }
+            let genreCounts = {}; likedIds.forEach(id => { const track = MUSIC_DATABASE.find(t => t.id === id); if (track) { genreCounts[track.genre] = (genreCounts[track.genre] || 0) + 1; } });
+            let favoriteGenre = null; let maxCount = 0; for (const genre in genreCounts) { if (genreCounts[genre] > maxCount) { maxCount = genreCounts[genre]; favoriteGenre = genre; } }
             const recs = MUSIC_DATABASE.filter(t => t.genre === favoriteGenre && !likedIds.includes(t.id));
-
-            if (recs.length === 0) {
-                recSection.style.display = 'none';
-                return;
-            }
-
-            recSection.style.display = 'block';
-            recs.slice(0, 4).forEach(track => renderCard(track, 'playlist-recommendations'));
+            if (recs.length === 0) { recSection.style.display = 'none'; return; }
+            recSection.style.display = 'block'; recs.slice(0, 4).forEach(track => renderCard(track, 'playlist-recommendations'));
         }
 
         function toggleMyWave() {
-            const btn = document.getElementById('wave-button');
-            const icon = document.getElementById('wave-icon');
-            const text = document.getElementById('wave-text');
-            
+            const btn = document.getElementById('wave-button'); const icon = document.getElementById('wave-icon'); const text = document.getElementById('wave-text');
             isWaveActive = !isWaveActive;
-            
             if (isWaveActive) {
-                btn.classList.add('wave-active');
-                icon.innerText = '🔥';
-                text.innerText = 'Моя волна играет';
-                generateWaveQueue();
-                playNextWaveTrack();
+                btn.classList.add('wave-active'); icon.innerText = '🔥'; text.innerText = 'Моя волна играет'; generateWaveQueue(); playNextWaveTrack();
             } else {
-                btn.classList.remove('wave-active');
-                icon.innerText = '🌊';
-                text.innerText = 'Включить Мою волну';
-                document.getElementById('audio-player').pause();
+                btn.classList.remove('wave-active'); icon.innerText = '🌊'; text.innerText = 'Включить Мою волну'; document.getElementById('audio-player').pause();
             }
         }
 
         function generateWaveQueue() {
             const likedIds = getLikedIds();
-            
-            if (likedIds.length === 0) {
-                waveQueue = [...MUSIC_DATABASE].sort(() => 0.5 - Math.random());
-                return;
-            }
-
-            let favoriteTracks = [];
-            likedIds.forEach(id => {
-                let t = MUSIC_DATABASE.find(track => track.id === id);
-                if (t) favoriteTracks.push(t);
-            });
-
-            let genres = favoriteTracks.map(t => t.genre);
-            let topGenre = genres.sort((a,b) => genres.filter(v => v===a).length - genres.filter(v => v===b).length).pop() || 'pop';
-
+            if (likedIds.length === 0) { waveQueue = [...MUSIC_DATABASE].sort(() => 0.5 - Math.random()); return; }
+            let favoriteTracks = []; likedIds.forEach(id => { let t = MUSIC_DATABASE.find(track => track.id === id); if (t) favoriteTracks.push(t); });
+            let genres = favoriteTracks.map(t => t.genre); let topGenre = genres.sort((a,b) => genres.filter(v => v===a).length - genres.filter(v => v===b).length).pop() || 'pop';
             const recommendedTracks = MUSIC_DATABASE.filter(t => t.genre === topGenre && !likedIds.includes(t.id));
-
             let mix = [...favoriteTracks.sort(() => 0.5 - Math.random())];
-            if(recommendedTracks.length > 0) {
-                mix = mix.concat(recommendedTracks.sort(() => 0.5 - Math.random()).slice(0, 3));
-            }
-            
+            if(recommendedTracks.length > 0) { mix = mix.concat(recommendedTracks.sort(() => 0.5 - Math.random()).slice(0, 3)); }
             waveQueue = mix;
         }
 
         function playNextWaveTrack() {
             if (waveQueue.length === 0) generateWaveQueue();
-            const nextTrack = waveQueue.shift();
-            if (nextTrack) {
-                playTrack(`[Моя Волна] ${nextTrack.artist} - ${nextTrack.title}`, nextTrack.url);
-            }
+            const nextTrack = waveQueue.shift(); if (nextTrack) playTrack(`[Моя Волна] ${nextTrack.artist} - ${nextTrack.title}`, nextTrack.url);
         }
-
-        // Фича: Поделиться треком
         function shareTrack(event, trackId) {
-            event.stopPropagation();
-            const shareUrl = `${window.location.origin}${window.location.pathname}?track=${trackId}`;
-            navigator.clipboard.writeText(shareUrl).then(() => {
-                alert('Ссылка на трек скопирована! Отправь её друзьям в чат.');
-            }).catch(() => {
-                alert('Не удалось скопировать. Ссылка: ' + shareUrl);
-            });
+            event.stopPropagation(); const shareUrl = `${window.location.origin}${window.location.pathname}?track=${trackId}`;
+            navigator.clipboard.writeText(shareUrl).then(() => { alert('Ссылка скопирована! Отправь её друзьям.'); }).catch(() => { alert('Ссылка: ' + shareUrl); });
         }
 
-        // Фича: Проверка входящей ссылки
         function checkSharedTrack() {
-            const urlParams = new URLSearchParams(window.location.search);
-            const trackId = urlParams.get('track');
-            if (trackId) {
-                const track = MUSIC_DATABASE.find(t => t.id === trackId);
-                if (track) {
-                    setTimeout(() => { playTrack(`${track.artist} - ${track.title}`, track.url); }, 1000);
-                }
-            }
+            const urlParams = new URLSearchParams(window.location.search); const trackId = urlParams.get('track');
+            if (trackId) { const track = MUSIC_DATABASE.find(t => t.id === trackId); if (track) { setTimeout(() => { playTrack(`${track.artist} - ${track.title}`, track.url); }, 1000); } }
         }
 
         async function searchMusic() {
-            const query = document.getElementById('search-input').value;
-            if (!query) return;
-            document.getElementById('loading').style.display = 'block';
-            document.getElementById('search-results-section').style.display = 'block';
-            document.getElementById('results').innerHTML = '';
-            
+            const query = document.getElementById('search-input').value; if (!query) return;
+            document.getElementById('loading').style.display = 'block'; document.getElementById('search-results-section').style.display = 'block'; document.getElementById('results').innerHTML = '';
             try {
                 const url = `https://wikimedia.org{encodeURIComponent(query)}+filetype:audio&format=json&origin=*`;
-                const res = await fetch(url);
-                const data = await res.json();
-                document.getElementById('loading').style.display = 'none';
-                
+                const res = await fetch(url); const data = await res.json(); document.getElementById('loading').style.display = 'none';
                 let searchCache = JSON.parse(sessionStorage.getItem('search_cache')) || [];
-                
                 (data.query.search || []).forEach((item, index) => {
                     const cleanTitle = item.title.replace('File:', '').replace('.ogg', '').replace('.mp3', '');
                     const fileUrl = `https://wikimedia.org{encodeURIComponent(item.title.replace('File:', ''))}`;
-                    
-                    const newTrack = {
-                        id: `search_${item.pageid || index}`,
-                        title: cleanTitle,
-                        artist: 'Глобальный поиск',
-                        genre: 'electronic',
-                        icon: '▶️',
-                        url: fileUrl
-                    };
-
-                    if(!searchCache.some(t => t.id === newTrack.id)) searchCache.push(newTrack);
-                    renderCard(newTrack, 'results');
+                    const newTrack = { id: `search_${item.pageid || index}`, title: cleanTitle, artist: 'Глобальный поиск', genre: 'electronic', icon: '▶️', url: fileUrl };
+                    if(!searchCache.some(t => t.id === newTrack.id)) searchCache.push(newTrack); renderCard(newTrack, 'results');
                 });
-
                 sessionStorage.setItem('search_cache', JSON.stringify(searchCache));
-            } catch (err) {
-                document.getElementById('loading').style.display = 'none';
-            }
+            } catch (err) { document.getElementById('loading').style.display = 'none'; }
         }
 
         function playTrack(title, url) {
-            document.getElementById('current-title').innerText = title;
-            const player = document.getElementById('audio-player');
-            player.src = url;
-            document.getElementById('player-panel').style.display = 'block';
-            player.play();
+            document.getElementById('current-title').innerText = title; const player = document.getElementById('audio-player');
+            player.src = url; document.getElementById('player-panel').style.display = 'block'; player.play();
         }
 
         document.getElementById('search-input').addEventListener('keypress', (e) => { if (e.key === 'Enter') searchMusic(); });
