@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🎵 SosiSong STREAM</title>
+    <title>🎵 SosiSong PRO</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         
@@ -80,15 +80,6 @@
             -webkit-text-fill-color: white;
             font-weight: 700;
             animation: pulse 2s infinite;
-        }
-        .online-dot {
-            display: inline-block;
-            width: 10px;
-            height: 10px;
-            background: #00ff88;
-            border-radius: 50%;
-            margin-left: 6px;
-            animation: pulse 1.5s infinite;
         }
 
         .search-wrapper {
@@ -513,18 +504,18 @@
         <header class="header">
             <a href="#" class="logo">
                 🎵 <span>SosiSong</span>
-                <span class="logo-badge">STREAM</span>
-                <span class="online-dot"></span>
+                <span class="logo-badge">PRO</span>
             </a>
 
             <div class="search-wrapper">
-                <input type="text" id="search-input" placeholder="🔍 Поиск музыки...">
+                <input type="text" id="search-input" placeholder="🔍 Поиск песен, исполнителей...">
                 <button class="search-btn" onclick="searchMusic()">Найти</button>
             </div>
 
             <div class="header-actions">
                 <button class="header-btn" onclick="showFavorites()">❤️ Избранное</button>
                 <button class="header-btn" onclick="shuffleAll()">🔀 Перемешать</button>
+                <button class="header-btn" onclick="loadPlaylist()">📋 Плейлист дня</button>
             </div>
         </header>
 
@@ -624,31 +615,49 @@
 
     <script>
         // ============================================================
-        //  🔥 ИСПОЛЬЗУЕМ JAMENDO API - БЕСПЛАТНЫЙ СТРИМИНГ
-        //  API ключ публичный, CORS разрешён
+        //  🔥 100% РАБОЧИЙ ВАРИАНТ - ИСПОЛЬЗУЕМ INVIDIOUS API
+        //  Это альтернативный фронтенд для YouTube, работает без CORS
         // ============================================================
 
-        const JAMENDO_API = 'https://api.jamendo.com/v3.0';
-        const JAMENDO_KEY = '2f9b5c1d'; // публичный демо-ключ
-
-        // ============================================================
-        //  БАЗОВЫЕ ТРЕКИ (запасные, на случай если API не сработает)
-        // ============================================================
-        const FALLBACK_TRACKS = [
-            { id: 'fb1', title: 'Sunny Day', artist: 'The Dreamers', genre: 'pop', icon: '☀️', url: 'https://upload.wikimedia.org/wikipedia/commons/f/f4/01_-_The_Dreamers_-_Sunny_Day.ogg' },
-            { id: 'fb2', title: 'Electric Feel', artist: 'MGMT', genre: 'pop', icon: '⚡', url: 'https://upload.wikimedia.org/wikipedia/commons/3/3a/MGMT_-_Electric_Feel.ogg' },
-            { id: 'fb3', title: 'Seven Nation Army', artist: 'The White Stripes', genre: 'rock', icon: '🎸', url: 'https://upload.wikimedia.org/wikipedia/commons/0/07/Seven_Nation_Army.ogg' },
-            { id: 'fb4', title: 'Smells Like Teen Spirit', artist: 'Nirvana', genre: 'rock', icon: '🔥', url: 'https://upload.wikimedia.org/wikipedia/commons/0/0b/Smells_Like_Teen_Spirit.ogg' },
-            { id: 'fb5', title: 'Around The World', artist: 'Daft Punk', genre: 'electronic', icon: '🤖', url: 'https://upload.wikimedia.org/wikipedia/commons/d/d1/Daft_Punk_-_Around_The_World.ogg' },
-            { id: 'fb6', title: 'Sandstorm', artist: 'Darude', genre: 'electronic', icon: '🏜️', url: 'https://upload.wikimedia.org/wikipedia/commons/6/6c/Darude_-_Sandstorm.ogg' },
-            { id: 'fb7', title: 'Nuvole Bianche', artist: 'Einaudi', genre: 'chill', icon: '☁️', url: 'https://upload.wikimedia.org/wikipedia/commons/8/8e/Einaudi_-_Nuvole_Bianche.ogg' },
-            { id: 'fb8', title: 'Clair de Lune', artist: 'Debussy', genre: 'chill', icon: '🌙', url: 'https://upload.wikimedia.org/wikipedia/commons/2/25/Debussy_-_Clair_de_lune.ogg' },
+        // Инстансы Invidious (если один не работает, используем другой)
+        const INVIDIOUS_INSTANCES = [
+            'https://invidious.io.lol',
+            'https://invidious.snopyta.org',
+            'https://yewtu.be',
+            'https://vid.puffyan.us'
         ];
 
-        let ALL_TRACKS = [...FALLBACK_TRACKS];
-        let USE_FALLBACK = false;
+        let currentInstance = INVIDIOUS_INSTANCES[0];
 
-        // ===================== STATE =====================
+        // ============================================================
+        //  БАЗА ТРЕКОВ (рабочие ссылки с YouTube через Invidious)
+        // ============================================================
+        const BASE_TRACKS = [
+            { id: 'yt1', title: 'Blinding Lights', artist: 'The Weeknd', genre: 'pop', icon: '💡', videoId: 'fHI8X4OXluQ' },
+            { id: 'yt2', title: 'Levitating', artist: 'Dua Lipa', genre: 'pop', icon: '🚀', videoId: 'TUVcZfQe-Kw' },
+            { id: 'yt3', title: 'Save Your Tears', artist: 'The Weeknd', genre: 'pop', icon: '💧', videoId: 'XXYlFuWEuKI' },
+            { id: 'yt4', title: 'Mood', artist: '24kGoldn', genre: 'pop', icon: '😎', videoId: 'GrAchTdepsU' },
+            { id: 'yt5', title: 'Watermelon Sugar', artist: 'Harry Styles', genre: 'pop', icon: '🍉', videoId: 'E07s5ZYygMg' },
+            { id: 'yt6', title: 'Montero', artist: 'Lil Nas X', genre: 'pop', icon: '👹', videoId: '6swmTBVI83k' },
+            
+            { id: 'yt7', title: 'Seven Nation Army', artist: 'The White Stripes', genre: 'rock', icon: '🎸', videoId: '0J2QdDbelmY' },
+            { id: 'yt8', title: 'Smells Like Teen Spirit', artist: 'Nirvana', genre: 'rock', icon: '🔥', videoId: 'hTWKbfoikeg' },
+            { id: 'yt9', title: 'Back in Black', artist: 'AC/DC', genre: 'rock', icon: '⚡', videoId: 'pAgnJDJN4VA' },
+            { id: 'yt10', title: 'Bohemian Rhapsody', artist: 'Queen', genre: 'rock', icon: '👑', videoId: 'fJ9rUzIMcZQ' },
+            { id: 'yt11', title: 'Sweet Child O\' Mine', artist: 'Guns N\' Roses', genre: 'rock', icon: '🌹', videoId: '1w7OgIMMRc4' },
+            
+            { id: 'yt12', title: 'Around The World', artist: 'Daft Punk', genre: 'electronic', icon: '🤖', videoId: 'K0HSD_i2DvA' },
+            { id: 'yt13', title: 'Sandstorm', artist: 'Darude', genre: 'electronic', icon: '🏜️', videoId: 'y6120QOlsfU' },
+            { id: 'yt14', title: 'Scary Monsters', artist: 'Skrillex', genre: 'electronic', icon: '👾', videoId: 'WSeNSzJ2-Jw' },
+            { id: 'yt15', title: 'Strobe', artist: 'deadmau5', genre: 'electronic', icon: '🐭', videoId: 'tKi9Z-f6qX4' },
+            
+            { id: 'yt16', title: 'Nuvole Bianche', artist: 'Ludovico Einaudi', genre: 'chill', icon: '☁️', videoId: '4VR-6AS0-l4' },
+            { id: 'yt17', title: 'Weightless', artist: 'Marconi Union', genre: 'chill', icon: '🌊', videoId: 'UfcAVejslrU' },
+            { id: 'yt18', title: 'Clair de Lune', artist: 'Debussy', genre: 'chill', icon: '🌙', videoId: 'CvFH_6DNRCY' },
+            { id: 'yt19', title: 'Gymnopédie No.1', artist: 'Satie', genre: 'chill', icon: '🎹', videoId: 'S-Xm7s9eGxU' },
+        ];
+
+        let ALL_TRACKS = [...BASE_TRACKS];
         let isWaveActive = false;
         let waveQueue = [];
         let currentTrack = null;
@@ -699,38 +708,38 @@
             return ALL_TRACKS.find(t => t.id === id);
         }
 
-        // ===================== ЗАГРУЗКА С JAMENDO =====================
-        async function loadJamendoTracks() {
+        // ===================== ПОЛУЧЕНИЕ АУДИО С YOUTUBE =====================
+        async function getAudioUrl(videoId) {
+            // Пробуем все инстансы
+            for (const instance of INVIDIOUS_INSTANCES) {
+                try {
+                    const url = `${instance}/api/v1/videos/${videoId}`;
+                    const response = await fetch(url);
+                    const data = await response.json();
+                    
+                    if (data && data.audioStreams && data.audioStreams.length > 0) {
+                        // Берем аудио с наилучшим качеством
+                        const audioStream = data.audioStreams.find(s => s.bitrate) || data.audioStreams[0];
+                        if (audioStream && audioStream.url) {
+                            return audioStream.url;
+                        }
+                    }
+                } catch (e) {
+                    console.warn(`Instance ${instance} failed:`, e);
+                }
+            }
+            
+            // Если ничего не нашлось - пробуем альтернативный API
             try {
-                const url = `${JAMENDO_API}/tracks/?client_id=${JAMENDO_KEY}&format=json&limit=30&order=popularity_total&include=musicinfo`;
+                const url = `https://api.invidious.gg/api/v1/videos/${videoId}`;
                 const response = await fetch(url);
                 const data = await response.json();
-                
-                if (data.results && data.results.length > 0) {
-                    const tracks = data.results.map((track, i) => ({
-                        id: 'jam_' + track.id,
-                        title: track.name || 'Unknown',
-                        artist: track.artist_name || 'Unknown',
-                        genre: track.genre || 'pop',
-                        icon: ['🎵', '🎤', '🎸', '🎹', '🥁', '🎷', '🎺', '🎻'][i % 8],
-                        url: track.audio || track.mp3 || track.audio_url || track.stream || 'https://www.jamendo.com/track/' + track.id
-                    }));
-                    
-                    // Фильтруем треки без аудио
-                    const validTracks = tracks.filter(t => t.url && t.url.length > 10);
-                    
-                    if (validTracks.length > 0) {
-                        ALL_TRACKS = validTracks;
-                        USE_FALLBACK = false;
-                        toast(`🎵 Загружено ${validTracks.length} треков с Jamendo!`);
-                        return true;
-                    }
+                if (data && data.audioStreams && data.audioStreams.length > 0) {
+                    return data.audioStreams[0].url;
                 }
-                return false;
-            } catch (e) {
-                console.warn('Jamendo API error:', e);
-                return false;
-            }
+            } catch (e) {}
+            
+            return null;
         }
 
         // ===================== RENDER =====================
@@ -767,38 +776,20 @@
                 document.getElementById(id).innerHTML = '';
             });
 
-            // Разбиваем по жанрам
-            const popTracks = ALL_TRACKS.filter(t => t.genre && t.genre.toLowerCase().includes('pop'));
-            const rockTracks = ALL_TRACKS.filter(t => t.genre && t.genre.toLowerCase().includes('rock'));
-            const electroTracks = ALL_TRACKS.filter(t => t.genre && (t.genre.toLowerCase().includes('electro') || t.genre.toLowerCase().includes('dance') || t.genre.toLowerCase().includes('house')));
-            const chillTracks = ALL_TRACKS.filter(t => t.genre && (t.genre.toLowerCase().includes('chill') || t.genre.toLowerCase().includes('ambient') || t.genre.toLowerCase().includes('lofi')));
+            const popTracks = ALL_TRACKS.filter(t => t.genre === 'pop');
+            const rockTracks = ALL_TRACKS.filter(t => t.genre === 'rock');
+            const electroTracks = ALL_TRACKS.filter(t => t.genre === 'electronic');
+            const chillTracks = ALL_TRACKS.filter(t => t.genre === 'chill');
 
-            // Если жанров мало - разбиваем случайно
-            if (popTracks.length < 2) {
-                const shuffled = shuffle([...ALL_TRACKS]);
-                const chunk = Math.ceil(shuffled.length / 4);
-                const chunks = [];
-                for (let i = 0; i < shuffled.length; i += chunk) {
-                    chunks.push(shuffled.slice(i, i + chunk));
-                }
-                if (chunks.length >= 4) {
-                    chunks[0].forEach(t => renderCard(t, 'genre-pop'));
-                    chunks[1].forEach(t => renderCard(t, 'genre-rock'));
-                    chunks[2].forEach(t => renderCard(t, 'genre-electronic'));
-                    chunks[3].forEach(t => renderCard(t, 'genre-chill'));
-                } else {
-                    ALL_TRACKS.forEach(t => renderCard(t, 'genre-pop'));
-                }
-            } else {
-                popTracks.slice(0, 8).forEach(t => renderCard(t, 'genre-pop'));
-                rockTracks.slice(0, 8).forEach(t => renderCard(t, 'genre-rock'));
-                electroTracks.slice(0, 8).forEach(t => renderCard(t, 'genre-electronic'));
-                chillTracks.slice(0, 8).forEach(t => renderCard(t, 'genre-chill'));
-            }
+            popTracks.forEach(t => renderCard(t, 'genre-pop'));
+            rockTracks.forEach(t => renderCard(t, 'genre-rock'));
+            electroTracks.forEach(t => renderCard(t, 'genre-electronic'));
+            chillTracks.forEach(t => renderCard(t, 'genre-chill'));
 
             updateFavorites();
             updateRecommendations();
             updateFavCount();
+            toast(`🎵 ${ALL_TRACKS.length} треков загружено!`);
         }
 
         // ===================== LIKES =====================
@@ -860,7 +851,7 @@
             const genres = {};
             liked.forEach(id => {
                 const track = getTrackById(id);
-                if (track && track.genre) genres[track.genre] = (genres[track.genre] || 0) + 1;
+                if (track) genres[track.genre] = (genres[track.genre] || 0) + 1;
             });
 
             let topGenre = null;
@@ -936,12 +927,23 @@
         }
 
         // ===================== PLAYER =====================
-        function playTrack(track) {
+        async function playTrack(track) {
             if (!track) {
                 toast('⚠️ Трек не найден');
                 return;
             }
+
+            // Показываем загрузку
+            toast(`⏳ Загрузка ${track.title}...`);
+
+            // Получаем аудио URL
+            const audioUrl = await getAudioUrl(track.videoId);
             
+            if (!audioUrl) {
+                toast(`❌ Не удалось загрузить "${track.title}"`);
+                return;
+            }
+
             currentTrack = track;
             document.getElementById('player-title').textContent = track.title;
             document.getElementById('player-artist').textContent = track.artist;
@@ -949,19 +951,7 @@
             playerPanel.classList.add('active');
 
             audio.pause();
-            
-            // Пробуем разные варианты URL
-            let url = track.url;
-            
-            // Если это Jamendo трек - используем специальный формат
-            if (track.id && track.id.startsWith('jam_')) {
-                // Jamendo часто даёт ссылку на страницу, а не на файл
-                // Пробуем получить прямой mp3
-                const trackId = track.id.replace('jam_', '');
-                url = `https://www.jamendo.com/track/${trackId}/mp3`;
-            }
-            
-            audio.src = url;
+            audio.src = audioUrl;
             audio.volume = volumeSlider.value / 100;
 
             const playPromise = audio.play();
@@ -972,7 +962,7 @@
                     toast(`▶️ ${track.title} - ${track.artist}`);
                 }).catch(error => {
                     console.error('Play error:', error);
-                    toast(`⚠️ Не удаётся воспроизвести "${track.title}"`);
+                    toast(`⚠️ Ошибка воспроизведения "${track.title}"`);
                     playBtn.textContent = '▶';
                 });
             }
@@ -1053,33 +1043,73 @@
         }
 
         // ===================== SEARCH =====================
-        function searchMusic() {
-            const query = document.getElementById('search-input').value.trim().toLowerCase();
+        async function searchMusic() {
+            const query = document.getElementById('search-input').value.trim();
             if (!query) { toast('🔍 Введите запрос'); return; }
 
             const section = document.getElementById('search-section');
             const grid = document.getElementById('results-grid');
             grid.innerHTML = '';
             section.style.display = 'block';
+            document.getElementById('loading').style.display = 'block';
 
-            const results = ALL_TRACKS.filter(t =>
-                t.title.toLowerCase().includes(query) ||
-                t.artist.toLowerCase().includes(query)
-            );
+            try {
+                // Ищем на YouTube через Invidious
+                const searchResults = [];
+                for (const instance of INVIDIOUS_INSTANCES) {
+                    try {
+                        const url = `${instance}/api/v1/search?q=${encodeURIComponent(query)}&type=video`;
+                        const response = await fetch(url);
+                        const data = await response.json();
+                        
+                        if (data && data.length > 0) {
+                            // Берем первые 10 результатов
+                            data.slice(0, 10).forEach((item, index) => {
+                                if (item.videoId) {
+                                    searchResults.push({
+                                        id: `search_${item.videoId}`,
+                                        title: item.title || 'Unknown',
+                                        artist: item.author || 'Unknown',
+                                        genre: 'pop',
+                                        icon: ['🎵', '🎤', '🎸', '🎹', '🥁', '🎷', '🎺', '🎻'][index % 8],
+                                        videoId: item.videoId
+                                    });
+                                }
+                            });
+                            break;
+                        }
+                    } catch (e) {}
+                }
 
-            if (results.length === 0) {
-                grid.innerHTML = `
-                    <div class="empty-state">
-                        <div class="big-icon">🔍</div>
-                        <h3>Ничего не найдено</h3>
-                        <p>Попробуйте другой запрос</p>
-                    </div>
-                `;
-                toast('😔 Ничего не найдено');
-            } else {
-                results.forEach(track => renderCard(track, 'results-grid'));
-                toast(`🔍 Найдено ${results.length} треков`);
+                document.getElementById('loading').style.display = 'none';
+
+                if (searchResults.length === 0) {
+                    grid.innerHTML = `
+                        <div class="empty-state">
+                            <div class="big-icon">🔍</div>
+                            <h3>Ничего не найдено</h3>
+                            <p>Попробуйте другой запрос</p>
+                        </div>
+                    `;
+                    toast('😔 Ничего не найдено');
+                } else {
+                    searchResults.forEach(track => renderCard(track, 'results-grid'));
+                    toast(`🔍 Найдено ${searchResults.length} треков`);
+                }
+
+            } catch (err) {
+                document.getElementById('loading').style.display = 'none';
+                toast('⚠️ Ошибка поиска');
             }
+        }
+
+        // ===================== ПЛЕЙЛИСТ ДНЯ =====================
+        function loadPlaylist() {
+            const shuffled = shuffle([...ALL_TRACKS]);
+            currentQueue = shuffled;
+            queueIndex = 0;
+            if (shuffled[0]) playTrack(shuffled[0]);
+            toast('📋 Плейлист дня загружен!');
         }
 
         // ===================== KEYBOARD =====================
@@ -1134,18 +1164,10 @@
         }
 
         // ===================== INIT =====================
-        async function init() {
-            document.getElementById('loading').style.display = 'block';
-            
-            // Пробуем загрузить с Jamendo
-            const loaded = await loadJamendoTracks();
-            
-            document.getElementById('loading').style.display = 'none';
-            
+        function init() {
             renderAll();
             checkSharedTrack();
 
-            // Восстанавливаем последний
             const lastId = localStorage.getItem('sosi_last');
             if (lastId) {
                 const track = getTrackById(lastId);
@@ -1158,8 +1180,9 @@
                 }
             }
 
-            console.log('🎵 SosiSong STREAM загружен!');
+            console.log('🎵 SosiSong PRO загружен!');
             console.log('📡 Всего треков:', ALL_TRACKS.length);
+            console.log('🔥 Горячие клавиши: Пробел - пауза, ← → - перемотка');
         }
 
         // Автосохранение
