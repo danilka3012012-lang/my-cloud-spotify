@@ -114,27 +114,29 @@
     </div>
     <script>
         // Большая встроенная музыкальная база данных по жанрам
+                // Обновленная база данных со стопроцентно рабочими HTTPS-ссылками
         const MUSIC_DATABASE = [
-            { id: 'db_1', title: 'Summer Pop Energy', artist: 'Helix Pop', genre: 'pop', icon: '🎤', url: 'https://soundhelix.com' },
-            { id: 'db_2', title: 'Dance Floor Anthem', artist: 'Vibe Master', genre: 'pop', icon: '💃', url: 'https://soundhelix.com' },
-            { id: 'db_3', title: 'Neon Lights Tonight', artist: 'Retro Club', genre: 'pop', icon: '🌟', url: 'https://soundhelix.com' },
-            { id: 'db_4', title: 'Sunset Boulevard', artist: 'Chill Pop Crew', genre: 'pop', icon: '🕶️', url: 'https://soundhelix.com' },
+            { id: 'db_1', title: 'Action Cinematic Beat', artist: 'Infraction', genre: 'pop', icon: '🎤', url: 'https://pixabay.com' },
+            { id: 'db_2', title: 'Summer Dance Vibe', artist: 'Alex-Productions', genre: 'pop', icon: '💃', url: 'https://pixabay.com' },
+            { id: 'db_3', title: 'Cyber Synthwave Energy', artist: 'Neon Drive', genre: 'pop', icon: '🌟', url: 'https://pixabay.com' },
+            { id: 'db_4', title: 'Pop Funk Party', artist: 'Groove Station', genre: 'pop', icon: '🕶️', url: 'https://pixabay.com' },
             
-            { id: 'db_5', title: 'Heavy Guitar Riff', artist: 'Steel Strings', genre: 'rock', icon: '🎸', url: 'https://soundhelix.com' },
-            { id: 'db_6', title: 'Alternative Drive', artist: 'Garage Band', genre: 'rock', icon: '🥁', url: 'https://soundhelix.com' },
-            { id: 'db_7', title: 'Hard Stadium Rock', artist: 'Thunder', genre: 'rock', icon: '⚡', url: 'https://soundhelix.com' },
-            { id: 'db_8', title: 'Screaming Solos', artist: 'Iron Core', genre: 'rock', icon: '💀', url: 'https://soundhelix.com' },
+            { id: 'db_5', title: 'Hard Rock Grunge', artist: 'Metal Core', genre: 'rock', icon: '🎸', url: 'https://pixabay.com' },
+            { id: 'db_6', title: 'Stoner Rock Riff', artist: 'Garage Crew', genre: 'rock', icon: '🥁', url: 'https://pixabay.com' },
+            { id: 'db_7', title: 'Modern Alt Rock', artist: 'Overdrive', genre: 'rock', icon: '⚡', url: 'https://pixabay.com' },
+            { id: 'db_8', title: 'Heavy Metal Anthem', artist: 'Iron Edge', genre: 'rock', icon: '💀', url: 'https://pixabay.com' },
             
-            { id: 'db_9', title: 'Cyberpunk Drive 2077', artist: 'Synth Kid', genre: 'electronic', icon: '🕹️', url: 'https://soundhelix.com' },
-            { id: 'db_10', title: 'Drift Phonk Bass', artist: 'Tokyo Rider', genre: 'electronic', icon: '🚗', url: 'https://soundhelix.com' },
-            { id: 'db_11', title: 'Techno Rave Acid', artist: 'Berlin DJ', genre: 'electronic', icon: '👽', url: 'https://soundhelix.com' },
-            { id: 'db_12', title: 'Deep House Flow', artist: 'Ocean Drive', genre: 'electronic', icon: '🌊', url: 'https://soundhelix.com' },
+            { id: 'db_9', title: 'Phonk Drift Core', artist: 'Tokyo Ghost', genre: 'electronic', icon: '🚗', url: 'https://pixabay.com' },
+            { id: 'db_10', title: 'Deep Cyber Techno', artist: 'Berlin DJ', genre: 'electronic', icon: '🕹️', url: 'https://pixabay.com' },
+            { id: 'db_11', title: 'Acid Rave Dance', artist: 'Club Head', genre: 'electronic', icon: '👽', url: 'https://pixabay.com' },
+            { id: 'db_12', title: 'Deep House Sunset', artist: 'Malibu Vibe', genre: 'electronic', icon: '🌊', url: 'https://pixabay.com' },
             
-            { id: 'db_13', title: 'Lo-Fi Study Coffee', artist: 'Library Beats', genre: 'chill', icon: '☕', url: 'https://soundhelix.com' },
-            { id: 'db_14', title: 'Cozy Rain Mood', artist: 'Bedroom Producer', genre: 'chill', icon: '🌧️', url: 'https://soundhelix.com' },
-            { id: 'db_15', title: 'Ambient Space Sleep', artist: 'Nebula', genre: 'chill', icon: '🌌', url: 'https://soundhelix.com' },
-            { id: 'db_16', title: 'Midnight Jazz Vibe', artist: 'Sax Lounge', genre: 'chill', icon: '🎷', url: 'https://soundhelix.com' }
+            { id: 'db_13', title: 'Lofi Coffee Shop', artist: 'Chillhop Beats', genre: 'chill', icon: '☕', url: 'https://pixabay.com' },
+            { id: 'db_14', title: 'Cozy Rain Lofi', artist: 'Sleepy Head', genre: 'chill', icon: '🌧️', url: 'https://pixabay.com' },
+            { id: 'db_15', title: 'Space Ambient Dream', artist: 'Nebula', genre: 'chill', icon: '🌌', url: 'https://pixabay.com' },
+            { id: 'db_16', title: 'Midnight Jazz Vibe', artist: 'Sax Lounge', genre: 'chill', icon: '🎷', url: 'https://pixabay.com' }
         ];
+
 
         let isWaveActive = false;
         let waveQueue = [];
