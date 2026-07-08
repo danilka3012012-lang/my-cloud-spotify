@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Spotify Clone 24/7</title>
+    <!-- Название вкладки в браузере с заглавной буквы -->
+    <title>SpotStik</title>
     <style>
         :root {
             --bg-base: #121212; --bg-surface: #181818; --bg-card: #242424;
@@ -34,9 +35,9 @@
 <body>
     <div class="container">
         <div class="header-section">
-            <h1>Music<span>Stream</span></h1>
+            <h1>Sosi<span>Song</span></h1>
             <div class="search-box">
-                <input type="text" id="search-input" placeholder="Введите название (на английском/латинице)...">
+                <input type="text" id="search-input" placeholder="Введите название (на английском)...">
                 <button onclick="searchMusic()">Поиск</button>
             </div>
         </div>
@@ -47,15 +48,20 @@
         </div>
         <h2>Популярно у друзей 🔥</h2>
         <div class="grid-layout">
-            <div class="track-card" onclick="playTrack('Rock Track', 'https://wikimedia.org')">
-                <div class="track-pic">🎸</div>
-                <p class="track-title">Guitar Loop</p>
-                <p class="track-desc">Rock Classic</p>
+            <div class="track-card" onclick="playTrack('Lo-Fi Chill Beat', 'https://soundhelix.com')">
+                <div class="track-pic">☕</div>
+                <p class="track-title">Lo-Fi Chill</p>
+                <p class="track-desc">SoundHelix 1</p>
             </div>
-            <div class="track-card" onclick="playTrack('Synth Pop', 'https://wikimedia.org')">
-                <div class="track-pic">🎹</div>
-                <p class="track-title">Electro Loop</p>
-                <p class="track-desc">Trance Beat</p>
+            <div class="track-card" onclick="playTrack('Ambient Relax', 'https://soundhelix.com')">
+                <div class="track-pic">🌌</div>
+                <p class="track-title">Ambient Relax</p>
+                <p class="track-desc">SoundHelix 2</p>
+            </div>
+            <div class="track-card" onclick="playTrack('Electronic Synth', 'https://soundhelix.com')">
+                <div class="track-pic">⚡</div>
+                <p class="track-title">Electronic</p>
+                <p class="track-desc">SoundHelix 3</p>
             </div>
         </div>
     </div>
@@ -74,7 +80,6 @@
             document.getElementById('results').innerHTML = '';
             
             try {
-                // Прямой запрос к Wikimedia без каких-либо прокси
                 const url = `https://wikimedia.org{encodeURIComponent(query)}+filetype:audio&format=json&origin=*`;
                 const res = await fetch(url);
                 const data = await res.json();
